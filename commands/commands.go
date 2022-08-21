@@ -11,8 +11,9 @@ var (
 
 	commands = []*discordgo.ApplicationCommand{
 		{
-			Name:        "shuffle",
-			Description: "Permite obtener listas aleatoreas de distintas maneras",
+			Name:         "shuffle",
+			Description:  "Permite obtener listas aleatoreas de distintas maneras",
+			DMPermission: &dmPermissionFalse,
 			Options: []*discordgo.ApplicationCommandOption{
 				{
 					Type:        discordgo.ApplicationCommandOptionSubCommand,
