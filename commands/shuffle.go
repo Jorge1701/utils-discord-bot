@@ -1,7 +1,7 @@
 package commands
 
 import (
-	"discord-bot/utils"
+	utils "discord-bot/utils"
 	"fmt"
 	"strings"
 
@@ -28,8 +28,8 @@ func HandleShuffle(s *discordgo.Session, i *discordgo.InteractionCreate) {
 			respuesta.WriteString("Ocurrió un error :pensive:")
 		} else {
 			for _, member := range guild.Members {
-				if contains(member.Roles, rol.ID) {
-					if !contains(lista, member.Mention()) {
+				if utils.SliceContains(member.Roles, rol.ID) {
+					if !utils.SliceContains(lista, member.Mention()) {
 						lista = append(lista, member.Mention())
 					}
 				}
@@ -40,7 +40,7 @@ func HandleShuffle(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	}
 
 	if len(lista) > 0 {
-		utils.ShuffleList(lista)
+		utils.ShuffleSlice(lista)
 
 		for i, opcion := range lista {
 			respuesta.WriteString(fmt.Sprintf("%d. %s\n", i+1, opcion))
@@ -52,13 +52,4 @@ func HandleShuffle(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	if respuesta.Len() > 0 {
 		utils.SendToSource(s, i, respuesta.String())
 	}
-}
-
-func contains(slice []string, value string) bool {
-	for _, v := range slice {
-		if v == value {
-			return true
-		}
-	}
-	return false
 }
