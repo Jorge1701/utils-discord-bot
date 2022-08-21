@@ -23,17 +23,9 @@ func HandleShuffle(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		rol := options["rol"].RoleValue(s, i.GuildID)
 		respuesta.WriteString(fmt.Sprintf("Shuffle rol %s\n\n", rol.Mention()))
 
-		if guild, err := s.State.Guild(i.GuildID); err != nil {
-			fmt.Printf("%s\n", err)
-			respuesta.WriteString("Ocurrió un error :pensive:")
-		} else {
-			for _, member := range guild.Members {
-				if utils.SliceContains(member.Roles, rol.ID) {
-					if !utils.SliceContains(lista, member.Mention()) {
-						lista = append(lista, member.Mention())
-					}
-				}
-			}
+		members := utils.GetMembersIdWithRole(s, i.GuildID, rol.ID)
+		for _, member := range members {
+			lista = append(lista, fmt.Sprintf("<@%s>", member))
 		}
 	case "audio":
 		respuesta.WriteString("Shuffle audio aún no implementado :sweat_smile:")
