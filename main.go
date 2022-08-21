@@ -1,21 +1,21 @@
 package main
 
 import (
+	commands "discord-bot/commands"
+	config "discord-bot/config"
 	"fmt"
 	"os"
 	"os/signal"
 	"syscall"
 
-	commands "discord-bot/commands"
-
 	"github.com/bwmarrin/discordgo"
 )
 
 func main() {
-	config := GetConfiguration()
+	configuration := config.GetConfiguration()
 
-	// Create session with BotToken
-	discord, err := discordgo.New(fmt.Sprintf("Bot %s", config.BotToken))
+	// Create discord session with BotToken
+	ds, err := discordgo.New(fmt.Sprintf("Bot %s", configuration.BotToken))
 
 	if err != nil {
 		fmt.Println("Error creating Discord session,", err)
@@ -23,23 +23,23 @@ func main() {
 	}
 
 	// Opens websocket and begins listening
-	err = discord.Open()
+	err = ds.Open()
 	if err != nil {
 		fmt.Println("Error opening connection,", err)
 		return
 	}
 
-	// Defer the closing of websocket connection, in case o panic
-	defer discord.Close()
+	// Defer the closing of websocket connection, in case of panic
+	defer ds.Close()
 
 	// Identify the intents of your bot
-	discord.Identify.Intents = discordgo.IntentsGuildMembers
+	ds.Identify.Intents = discordgo.IntentsGuildMembers
 
 	// Register handlers for user interactions
-	discord.AddHandler(commands.HandleCommands)
+	ds.AddHandler(commands.HandleCommands)
 
 	// Register commands for user interactions
-	registeredCommands := commands.RegisterCommands(discord)
+	registeredCommands := commands.RegisterCommands(ds)
 
 	// Initialization finished
 	fmt.Println("Bot is now running.")
@@ -50,5 +50,7 @@ func main() {
 	<-sc
 
 	// Remove commands
-	commands.UnregisterCommands(discord, registeredCommands)
+	commands.UnregisterCommands(ds, registeredCommands)
+
+	fmt.Println("Gracefully shutting down.")
 }

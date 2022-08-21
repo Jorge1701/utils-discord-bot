@@ -1,9 +1,10 @@
-package main
+package config
 
 import "github.com/tkanos/gonfig"
 
 type Configuration struct {
 	BotToken string
+	AppId    string
 }
 
 func GetConfiguration() Configuration {
@@ -13,6 +14,9 @@ func GetConfiguration() Configuration {
 	}
 	if configuration.BotToken == "" {
 		panic("Missing configuration 'BotToken'")
+	}
+	if configuration.AppId == "" {
+		panic("Missing configuration 'AppId'")
 	}
 	return configuration
 }

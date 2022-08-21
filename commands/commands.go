@@ -1,12 +1,15 @@
 package commands
 
 import (
+	config "discord-bot/config"
 	"fmt"
 
 	"github.com/bwmarrin/discordgo"
 )
 
 var (
+	configuration config.Configuration
+
 	dmPermissionFalse = false
 
 	commands = []*discordgo.ApplicationCommand{
@@ -66,10 +69,14 @@ var (
 	}
 )
 
-func RegisterCommands(discord *discordgo.Session) []*discordgo.ApplicationCommand {
+func init() {
+	configuration = config.GetConfiguration()
+}
+
+func RegisterCommands(s *discordgo.Session) []*discordgo.ApplicationCommand {
 	registeredCommands := make([]*discordgo.ApplicationCommand, len(commands))
 	for i, command := range commands {
-		registeredCommand, err := discord.ApplicationCommandCreate(discord.State.User.ID, "", command)
+		registeredCommand, err := s.ApplicationCommandCreate(configuration.AppId, "", command)
 		if err != nil {
 			fmt.Printf("Cannot create '%s' command\n", command.Name)
 			panic(err)
@@ -79,9 +86,9 @@ func RegisterCommands(discord *discordgo.Session) []*discordgo.ApplicationComman
 	return registeredCommands
 }
 
-func UnregisterCommands(discord *discordgo.Session, commands []*discordgo.ApplicationCommand) {
+func UnregisterCommands(s *discordgo.Session, commands []*discordgo.ApplicationCommand) {
 	for _, registeredCommand := range commands {
-		err := discord.ApplicationCommandDelete(discord.State.User.ID, "", registeredCommand.ID)
+		err := s.ApplicationCommandDelete(configuration.AppId, "", registeredCommand.ID)
 		if err != nil {
 			fmt.Printf("Cannot delete '%s' command\n", registeredCommand.Name)
 		}
