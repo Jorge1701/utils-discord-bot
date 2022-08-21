@@ -34,7 +34,7 @@ func HandlePick(s *discordgo.Session, i *discordgo.InteractionCreate) {
 			lista = append(lista, fmt.Sprintf("<@%s>", member))
 		}
 	case "audio":
-		respuesta.WriteString("Shuffle audio aún no implementado :sweat_smile:")
+		respuesta.WriteString("Pick audio aún no implementado :sweat_smile:")
 	}
 
 	if len(lista) > 0 {
