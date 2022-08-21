@@ -10,7 +10,7 @@ func ShuffleSlice(slice []string) {
 	rand.Shuffle(len(slice), func(i, j int) { slice[i], slice[j] = slice[j], slice[i] })
 }
 
-func SliceContains(slice []string, value string) bool {
+func SliceContains[T comparable](slice []T, value T) bool {
 	for _, v := range slice {
 		if v == value {
 			return true
