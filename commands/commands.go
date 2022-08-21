@@ -11,6 +11,7 @@ var (
 	configuration config.Configuration
 
 	dmPermissionFalse = false
+	minCantidad       = 1.0
 
 	commands = []*discordgo.ApplicationCommand{
 		{
@@ -62,10 +63,78 @@ var (
 				},
 			},
 		},
+		{
+			Name:         "pick",
+			Description:  "Permite obtener cantidad específica de elementos aleatoreos",
+			DMPermission: &dmPermissionFalse,
+			Options: []*discordgo.ApplicationCommandOption{
+				{
+					Type:        discordgo.ApplicationCommandOptionSubCommand,
+					Name:        "lista",
+					Description: "Obtiene cantidad específica aleatoreo de una lista de opciones separada por espacios",
+					Options: []*discordgo.ApplicationCommandOption{
+						{
+							Type:        discordgo.ApplicationCommandOptionString,
+							Name:        "opciones",
+							Description: "Opciones separadas por espacio",
+							Required:    true,
+						},
+						{
+							Type:        discordgo.ApplicationCommandOptionInteger,
+							Name:        "cantidad",
+							Description: "Cantidad de elementros a devolver, si no se especifíca se devuelve un único elemento",
+							MinValue:    &minCantidad,
+						},
+					},
+				},
+				{
+					Type:        discordgo.ApplicationCommandOptionSubCommand,
+					Name:        "rol",
+					Description: "Obtiene usuario aleatoreo los usuarios que pertenecen a un rol",
+					Options: []*discordgo.ApplicationCommandOption{
+						{
+							Type:        discordgo.ApplicationCommandOptionRole,
+							Name:        "rol",
+							Description: "Rol a ordenar aleatoreamente",
+							Required:    true,
+						},
+						{
+							Type:        discordgo.ApplicationCommandOptionInteger,
+							Name:        "cantidad",
+							Description: "Cantidad de elementros a devolver, si no se especifíca se devuelve un único elemento",
+							MinValue:    &minCantidad,
+						},
+					},
+				},
+				{
+					Type:        discordgo.ApplicationCommandOptionSubCommand,
+					Name:        "audio",
+					Description: "Ordena aleatoreamente lo usuarios conectados a un canal",
+					Options: []*discordgo.ApplicationCommandOption{
+						{
+							Type:        discordgo.ApplicationCommandOptionChannel,
+							Name:        "canal",
+							Description: "Canal a ordenar aleatoreamente",
+							Required:    true,
+							ChannelTypes: []discordgo.ChannelType{
+								discordgo.ChannelTypeGuildVoice,
+							},
+						},
+						{
+							Type:        discordgo.ApplicationCommandOptionInteger,
+							Name:        "cantidad",
+							Description: "Cantidad de elementros a devolver, si no se especifíca se devuelve un único elemento",
+							MinValue:    &minCantidad,
+						},
+					},
+				},
+			},
+		},
 	}
 
 	commandHandlers = map[string]func(s *discordgo.Session, i *discordgo.InteractionCreate){
 		"shuffle": HandleShuffle,
+		"pick":    HandlePick,
 	}
 )
 
