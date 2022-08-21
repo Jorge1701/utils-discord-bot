@@ -19,7 +19,7 @@ Devuelve una lista de opciones en orden aleatoreo.
 Devuelve una lista de los usuarios que tienen el rol indicado, en un orden aleatoreo.
 
 ```
-/shuffle role [rol]
+/shuffle rol [rol]
 ```
 
 - rol: Referencia a un rol del servidor.
@@ -33,4 +33,40 @@ Devuelve una lista de los usuarios conectados al canal indicado, en un orden ale
 ```
 
 - canal: Referencia a un canal de audio del servidor.
+
+
+## Pick
+
+### lista
+
+Devuelve una cantidad de opciones aleatoreas de entre las seleccionadas.
+
+```
+/pick lista [opciones] [cantidad]
+```
+
+- opciones: Lista de opciones separadas por espacios.
+- cantidad: Cantidad de opciones a elegir, por defecto es 1.
+
+### rol
+
+Devuelve una cantidad de usuarios aleatoreos que tengan el rol especificado
+
+```
+/pick rol [rol] [cantidad]
+```
+
+- rol: Referencia a un rol del servidor.
+- cantidad: Cantidad de usuarios a devolver, por defecto es 1.
+
+### audio
+
+Devuelve una cantidad de usuarios aleatoreos que estén conectados al canal especificado.
+
+```
+/pick canal [canal] [cantidad]
+```
+
+- canal: Referencia a un canal de audio del servidor.
+- cantidad: Cantidad de usuarios a devolver, por defecto es 1.
 
