@@ -130,11 +130,24 @@ var (
 				},
 			},
 		},
+		{
+			Name:        "agregar-tarea",
+			Description: "Permite registrar una tarea realizada",
+			Options: []*discordgo.ApplicationCommandOption{
+				{
+					Type:        discordgo.ApplicationCommandOptionString,
+					Name:        "descripcion",
+					Description: "Descripción de la tarea",
+					Required:    true,
+				},
+			},
+		},
 	}
 
 	commandHandlers = map[string]func(s *discordgo.Session, i *discordgo.InteractionCreate){
-		"shuffle": HandleShuffle,
-		"pick":    HandlePick,
+		"shuffle":       HandleShuffle,
+		"pick":          HandlePick,
+		"agregar-tarea": HandleTask,
 	}
 )
 

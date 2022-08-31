@@ -11,7 +11,7 @@ type Task struct {
 	Description string
 }
 
-func (t *Task) AddTask() {
+func (t *Task) SaveTask() {
     executeOnCollection("tasks", func(c *mongo.Collection, ctx context.Context) {
         c.InsertOne(ctx, t)
     })
