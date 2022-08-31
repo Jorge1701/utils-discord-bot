@@ -1,4 +1,6 @@
 {
     "BotToken": "",
-    "AppId": ""
+    "AppId": "",
+    "MongoURI": "",
+    "DataBase": ""
 }

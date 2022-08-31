@@ -5,6 +5,8 @@ import "github.com/tkanos/gonfig"
 type Configuration struct {
 	BotToken string
 	AppId    string
+	MongoURI string
+	DataBase string
 }
 
 func GetConfiguration() Configuration {
