@@ -131,23 +131,35 @@ var (
 			},
 		},
 		{
-			Name:        "agregar-tarea",
-			Description: "Permite registrar una tarea realizada",
+			Name:        "tarea",
+			Description: "Permite realizar acciones sobre tareas",
 			Options: []*discordgo.ApplicationCommandOption{
 				{
-					Type:        discordgo.ApplicationCommandOptionString,
-					Name:        "descripcion",
-					Description: "Descripción de la tarea",
-					Required:    true,
+					Type:        discordgo.ApplicationCommandOptionSubCommand,
+					Name:        "agregar",
+					Description: "Permite registrar una tarea realizada",
+					Options: []*discordgo.ApplicationCommandOption{
+						{
+							Type:        discordgo.ApplicationCommandOptionString,
+							Name:        "descripcion",
+							Description: "Descripción de la tarea",
+							Required:    true,
+						},
+					},
+				},
+				{
+					Type:        discordgo.ApplicationCommandOptionSubCommand,
+					Name:        "listado",
+					Description: "Permite listar las tareas realizadas",
 				},
 			},
 		},
 	}
 
 	commandHandlers = map[string]func(s *discordgo.Session, i *discordgo.InteractionCreate){
-		"shuffle":       HandleShuffle,
-		"pick":          HandlePick,
-		"agregar-tarea": HandleTask,
+		"shuffle": HandleShuffle,
+		"pick":    HandlePick,
+		"tarea":   HandleTask,
 	}
 )
 
