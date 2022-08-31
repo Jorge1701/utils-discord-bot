@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -19,10 +20,10 @@ func (t *Task) SaveTask() {
 	})
 }
 
-func ListTasks() []Task {
+func ListTasks(userId string) []Task {
 	var tasks []Task
 	executeOnCollection("tasks", func(c *mongo.Collection, ctx context.Context) {
-		cursor, err := c.Find(ctx, bson.D{})
+		cursor, err := c.Find(ctx, bson.D{primitive.E{Key: "userid", Value: userId}})
 		if err != nil {
 			fmt.Println("Error when listing tasks", err)
 		}

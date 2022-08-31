@@ -22,7 +22,7 @@ func HandleTask(s *discordgo.Session, i *discordgo.InteractionCreate) {
 
 		utils.SendToSourceEphemeral(s, i, fmt.Sprintf("Tarea agregada `%s`", description.StringValue()))
 	case "listado":
-		tasks := db.ListTasks()
+		tasks := db.ListTasks(s.State.User.ID)
 
 		var response strings.Builder
 
